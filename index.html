@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRIS - โรงเรียนวัดท่าพูด</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Sarabun', sans-serif; background-color: #f0f4f8; color: #1e293b; min-height: 100vh; display: flex; flex-direction: column; font-size: 1.05rem; }
+        main { flex: 1; }
+        .bg-primary { background-color: #0b5ed7 !important; }
+        .text-primary { color: #0b5ed7 !important; }
+        .card { border: none; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); }
+        .wrapper { min-height: 85vh; display: flex; align-items: center; }
+        .btn { border-radius: 8px; font-weight: 500; }
+        .nav-pills .nav-link { color: #475569; border-radius: 8px; font-weight: 500; margin-bottom: 5px; }
+        .nav-pills .nav-link.active { background-color: #0b5ed7; color: white; }
+        .info-label { font-size: 0.9rem; color: #64748b; font-weight: 500; }
+        .info-value { font-size: 1.05rem; font-weight: 500; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; }
+        .form-control, .form-select { border-radius: 8px; border: 1px solid #cbd5e1; }
+        .form-control:focus { border-color: #0b5ed7; box-shadow: 0 0 0 0.2rem rgba(11, 94, 215, 0.15); }
+        .table { font-size: 0.95rem; }
+        .header-gradient { background: linear-gradient(135deg, #0b5ed7 0%, #1e40af 100%); color: white; }
+        .custom-footer { background-color: #ffffff; border-top: 1px solid #e2e8f0; padding: 15px 0; color: #64748b; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+    <main>
+        <!-- ================= 1. หน้าเข้าสู่ระบบ & ลงทะเบียน ================= -->
+        <div id="authSection" class="container wrapper">
+            <div class="row w-100 justify-content-center m-0">
+                <div class="col-12 col-sm-10 col-md-8 col-lg-5">
+                    <div class="card overflow-hidden">
+                        <div class="header-gradient p-4 text-center">
+                            <i class="fa-solid fa-school-flag fa-3x mb-2"></i>
+                            <h3 class="mb-0 fw-bold">ระบบสารสนเทศบุคลากร</h3>
+                            <div class="fw-light small mt-1">โรงเรียนวัดท่าพูด (นครผลประชานุกูล)</div>
+                        </div>
+                        
+                        <div id="loginBox" class="card-body p-4 p-md-5">
+                            <form id="loginForm">
+                                <div class="mb-3">
+                                    <label class="form-label text-muted small fw-bold">อีเมล</label>
+                                    <input type="email" class="form-control" id="loginEmail" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label text-muted small fw-bold">รหัสผ่าน</label>
+                                    <input type="password" class="form-control" id="loginPassword" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 py-2" id="loginBtn">เข้าสู่ระบบ</button>
+                            </form>
+                            <div class="text-center mt-3">
+                                <a href="#" onclick="toggleAuth('register')" class="text-decoration-none small text-primary">ลงทะเบียนข้าราชการใหม่</a>
+                            </div>
+                        </div>
+
+                        <div id="registerBox" class="card-body p-4 p-md-5 d-none">
+                            <h5 class="text-center fw-bold mb-4 text-primary">ลงทะเบียนข้อมูลพื้นฐาน</h5>
+                            <form id="registerForm">
+                                <div class="mb-2"><label class="form-label small fw-bold">อีเมล (ใช้เข้าระบบ)</label><input type="email" class="form-control" id="regEmail" required></div>
+                                <div class="mb-2"><label class="form-label small fw-bold">รหัสผ่าน</label><input type="password" class="form-control" id="regPassword" required></div>
+                                <div class="mb-2"><label class="form-label small fw-bold">ชื่อ-นามสกุล</label><input type="text" class="form-control" id="regName" required></div>
+                                <div class="mb-4"><label class="form-label small fw-bold">ตำแหน่ง</label><input type="text" class="form-control" id="regPos" required></div>
+                                <button type="submit" class="btn btn-success w-100 py-2" id="regBtn">บันทึกการลงทะเบียน</button>
+                            </form>
+                            <div class="text-center mt-3">
+                                <a href="#" onclick="toggleAuth('login')" class="text-decoration-none small text-secondary"><i class="fa-solid fa-arrow-left"></i> กลับไปหน้าเข้าสู่ระบบ</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= 2. หน้า User ================= -->
+        <div id="userSection" class="d-none pb-5">
+            <nav class="navbar header-gradient mb-4 py-3 shadow-sm">
+                <div class="container">
+                    <span class="navbar-brand mb-0 h1 text-white"><i class="fa-solid fa-school me-2"></i> HRIS วัดท่าพูด</span>
+                    <button class="btn btn-sm btn-light text-primary" onclick="location.reload()">ออกจากระบบ</button>
+                </div>
+            </nav>
+            <div class="container">
+                <div class="row g-4">
+                    <div class="col-lg-3">
+                        <div class="card p-4 text-center mb-3">
+                            <img id="u_img" src="https://via.placeholder.com/150" class="rounded-circle mx-auto mb-3 border border-3" style="width:100px; height:100px; object-fit:cover;">
+                            <h5 class="fw-bold text-primary mb-1" id="u_name">-</h5>
+                            <p class="text-muted small mb-0" id="u_pos">-</p>
+                        </div>
+                        <div class="card p-2">
+                            <ul class="nav nav-pills flex-column" id="userTabs">
+                                <li class="nav-item"><a class="nav-link active" href="#" onclick="switchTab('u_profileTab', this, '.u-tab')"><i class="fa-regular fa-id-card me-2"></i> ข้อมูลส่วนตัว</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#" onclick="switchTab('u_editTab', this, '.u-tab'); fillEditForm();"><i class="fa-solid fa-pen-to-square me-2"></i> แก้ไขข้อมูล</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#" onclick="switchTab('u_trainTab', this, '.u-tab')"><i class="fa-solid fa-graduation-cap me-2"></i> ประวัติการอบรม</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <div id="u_profileTab" class="card p-4 u-tab">
+                            <h5 class="fw-bold text-primary mb-3 pb-2 border-bottom"><i class="fa-solid fa-user-check me-2"></i> ประวัติส่วนตัวและการทำงาน</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6"><div class="info-label">อีเมล</div><div class="info-value" id="d_email">-</div></div>
+                                <div class="col-md-6"><div class="info-label">เบอร์โทรศัพท์</div><div class="info-value" id="d_phone">-</div></div>
+                                <div class="col-md-6"><div class="info-label">เลขที่ใบประกอบวิชาชีพ</div><div class="info-value" id="d_lic">-</div></div>
+                                <div class="col-md-6"><div class="info-label">วันที่บรรจุ</div><div class="info-value" id="d_start">-</div></div>
+                                <div class="col-12"><div class="info-label">ที่อยู่ปัจจุบัน</div><div class="info-value" id="d_addr">-</div></div>
+                                <div class="col-12"><div class="info-label">ภาระงานสอน</div><div class="info-value" id="d_teach">-</div></div>
+                            </div>
+                        </div>
+                        <div id="u_editTab" class="card p-4 u-tab d-none">
+                            <h5 class="fw-bold text-primary mb-3 pb-2 border-bottom"><i class="fa-solid fa-pen me-2"></i> แก้ไขข้อมูลพื้นฐาน</h5>
+                            <form id="editForm">
+                                <div class="row g-3">
+                                    <div class="col-md-6"><label class="info-label">ชื่อ-นามสกุล</label><input type="text" class="form-control" id="e_name"></div>
+                                    <div class="col-md-6"><label class="info-label">เบอร์โทรศัพท์</label><input type="text" class="form-control" id="e_phone"></div>
+                                    <div class="col-md-6"><label class="info-label">วิทยฐานะ</label><input type="text" class="form-control" id="e_acad"></div>
+                                    <div class="col-md-6"><label class="info-label">เลขใบประกอบวิชาชีพ</label><input type="text" class="form-control" id="e_lic"></div>
+                                    <div class="col-12"><label class="info-label">ที่อยู่ปัจจุบัน</label><input type="text" class="form-control" id="e_addr"></div>
+                                    <div class="col-12 text-end mt-4"><button type="submit" class="btn btn-primary" id="editBtn">อัปเดตข้อมูล</button></div>
+                                </div>
+                            </form>
+                        </div>
+                        <div id="u_trainTab" class="card p-4 u-tab d-none">
+                            <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                                <h5 class="fw-bold text-primary mb-0"><i class="fa-solid fa-book-open me-2"></i> การพัฒนาตนเอง</h5>
+                                <button class="btn btn-sm btn-primary" onclick="document.getElementById('addTrainBox').classList.toggle('d-none')">+ เพิ่มข้อมูล</button>
+                            </div>
+                            <div id="addTrainBox" class="bg-white border p-3 rounded mb-3 d-none">
+                                <form id="trainForm">
+                                    <div class="row g-2">
+                                        <div class="col-md-3"><label class="small text-muted">ปี</label><input type="text" class="form-control form-control-sm" id="t_year" value="2567" required></div>
+                                        <div class="col-md-3"><label class="small text-muted">วันที่</label><input type="date" class="form-control form-control-sm" id="t_date" required></div>
+                                        <div class="col-md-4"><label class="small text-muted">หลักสูตร</label><input type="text" class="form-control form-control-sm" id="t_name" required></div>
+                                        <div class="col-md-2"><label class="small text-muted">ชม.</label><input type="number" class="form-control form-control-sm" id="t_hours" required></div>
+                                        <div class="col-12 text-end mt-2"><button type="submit" class="btn btn-success btn-sm" id="trainBtn">บันทึก</button></div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-center align-middle">
+                                    <thead class="table-light"><tr><th>วันที่</th><th class="text-start">ชื่อหลักสูตร</th><th>ปีการศึกษา</th><th>ชั่วโมง</th></tr></thead>
+                                    <tbody id="trainTbody"><tr><td colspan="4">กำลังโหลด...</td></tr></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= 3. หน้า Admin ================= -->
+        <div id="adminSection" class="d-none pb-5">
+            <nav class="navbar bg-dark mb-4 py-3 shadow-sm">
+                <div class="container">
+                    <span class="navbar-brand mb-0 h1 text-white"><i class="fa-solid fa-shield-halved me-2 text-warning"></i> Admin Dashboard</span>
+                    <button class="btn btn-sm btn-outline-light" onclick="location.reload()">ออกจากระบบ</button>
+                </div>
+            </nav>
+            <div class="container">
+                <div class="row mb-4">
+                    <div class="col-md-6"><div class="card p-3 border-start border-primary border-4"><h6 class="text-muted">บุคลากรในระบบ</h6><h3 class="mb-0 fw-bold" id="adm_user_count">-</h3></div></div>
+                    <div class="col-md-6"><div class="card p-3 border-start border-success border-4"><h6 class="text-muted">รายการอบรมรวม</h6><h3 class="mb-0 fw-bold" id="adm_train_count">-</h3></div></div>
+                </div>
+                <div class="card p-4">
+                    <h5 class="fw-bold mb-3"><i class="fa-solid fa-users me-2"></i> รายชื่อบุคลากรทั้งหมด</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-dark"><tr><th>ชื่อ-นามสกุล</th><th>ตำแหน่ง</th><th>อีเมล</th><th>เบอร์โทร</th></tr></thead>
+                            <tbody id="admUserTbody"><tr><td colspan="4" class="text-center">กำลังโหลดข้อมูล...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ส่วนท้าย (Footer) เครื่องหมายวงกลม © -->
+    <footer class="custom-footer text-center mt-auto shadow-sm">
+        <div class="container">
+            <span class="fw-bold"><i class="fa-solid fa-code me-1"></i> Copyright © พัฒนาระบบโดยปัญญา(ไม่)ประดิษฐ์</span>
+        </div>
+    </footer>
+
+    <script>
+        // =========================================================
+        // ⚠️ วาง URL เว็บแอป (ที่ได้จาก Google Apps Script) ของคุณที่นี่
+        const API_URL = "https://script.google.com/macros/s/AKfycbwLMoQaOOtVuPKkB3H0RB1U75HMJLmSMBhKW8_MuiToG8bra9CBE4rGgnjBkAA32yS1/exec";
+        // =========================================================
+
+        let userData = {};
+
+        function toggleAuth(view) {
+            document.getElementById('loginBox').classList.toggle('d-none', view !== 'login');
+            document.getElementById('registerBox').classList.toggle('d-none', view !== 'register');
+        }
+        function switchTab(tabId, element, groupClass) {
+            document.querySelectorAll(groupClass).forEach(el => el.classList.add('d-none'));
+            document.querySelectorAll(element.parentNode.parentNode.querySelectorAll('.nav-link')).forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.remove('d-none');
+            element.classList.add('active');
+        }
+
+        // ระบบ Fetch API ใช้เชื่อมต่อข้ามโดเมนไปยัง Google Sheets
+        function callAPI(payload, btnId, loadingText, callback) {
+            let btn = null;
+            let originalText = "";
+            if(btnId) {
+                btn = document.getElementById(btnId);
+                originalText = btn.innerHTML;
+                btn.innerHTML = loadingText; btn.disabled = true;
+            }
+            
+            fetch(API_URL, {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' } // ป้องกันปัญหา CORS บน GitHub
+            })
+            .then(res => res.json())
+            .then(result => {
+                if(btn) { btn.innerHTML = originalText; btn.disabled = false; }
+                callback(result);
+            })
+            .catch(err => {
+                if(btn) { btn.innerHTML = originalText; btn.disabled = false; }
+                alert('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์');
+            });
+        }
+
+        // Login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const payload = { action: 'login', data: { email: document.getElementById('loginEmail').value, password: document.getElementById('loginPassword').value }};
+            callAPI(payload, 'loginBtn', 'กำลังตรวจสอบ...', function(res) {
+                if(res.status === 'success') {
+                    document.getElementById('authSection').classList.add('d-none');
+                    if(res.role === 'admin') {
+                        document.getElementById('adminSection').classList.remove('d-none');
+                        loadAdminData();
+                    } else {
+                        userData = res.data;
+                        document.getElementById('userSection').classList.remove('d-none');
+                        setupUserProfile(); loadTraining();
+                    }
+                } else alert(res.message);
+            });
+        });
+
+        // Register
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const payload = { action: 'register', data: { email: document.getElementById('regEmail').value, password: document.getElementById('regPassword').value, full_name: document.getElementById('regName').value, position: document.getElementById('regPos').value }};
+            callAPI(payload, 'regBtn', 'กำลังบันทึก...', function(res) {
+                alert(res.message);
+                if(res.status === 'success') { document.getElementById('registerForm').reset(); toggleAuth('login'); }
+            });
+        });
+
+        // Profile Setup
+        function setupUserProfile() {
+            document.getElementById('u_name').innerText = userData.full_name || '-';
+            document.getElementById('u_pos').innerText = userData.position || '-';
+            document.getElementById('d_email').innerText = userData.email || '-';
+            document.getElementById('d_phone').innerText = userData.phone || '-';
+            document.getElementById('d_lic').innerText = userData.teacher_license || '-';
+            document.getElementById('d_start').innerText = userData.start_date || '-';
+            document.getElementById('d_addr').innerText = userData.current_address || '-';
+            document.getElementById('d_teach').innerText = userData.teaching_load || '-';
+        }
+
+        // Edit Profile
+        function fillEditForm() {
+            document.getElementById('e_name').value = userData.full_name || '';
+            document.getElementById('e_phone').value = userData.phone || '';
+            document.getElementById('e_acad').value = userData.academic_standing || '';
+            document.getElementById('e_lic').value = userData.teacher_license || '';
+            document.getElementById('e_addr').value = userData.current_address || '';
+        }
+        document.getElementById('editForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const payload = { action: 'update_profile', data: { email: userData.email, full_name: document.getElementById('e_name').value, phone: document.getElementById('e_phone').value, academic_standing: document.getElementById('e_acad').value, teacher_license: document.getElementById('e_lic').value, current_address: document.getElementById('e_addr').value }};
+            callAPI(payload, 'editBtn', 'กำลังอัปเดต...', function(res) {
+                alert(res.message);
+                if(res.status === 'success') { Object.assign(userData, payload.data); setupUserProfile(); }
+            });
+        });
+
+        // Training
+        function loadTraining() {
+            callAPI({ action: 'get_training', data: { email: userData.email } }, null, '', function(res) {
+                const tbody = document.getElementById('trainTbody'); tbody.innerHTML = '';
+                if(res.data && res.data.length > 0) {
+                    res.data.forEach(tr => { tbody.innerHTML += `<tr><td>${tr.training_date}</td><td class="text-start">${tr.course_name}</td><td>${tr.academic_year}</td><td class="text-primary fw-bold">${tr.hours}</td></tr>`; });
+                } else tbody.innerHTML = '<tr><td colspan="4">ยังไม่มีประวัติการอบรม</td></tr>';
+            });
+        }
+        document.getElementById('trainForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const payload = { action: 'add_training', data: { email: userData.email, academic_year: document.getElementById('t_year').value, training_date: document.getElementById('t_date').value, course_name: document.getElementById('t_name').value, hours: document.getElementById('t_hours').value }};
+            callAPI(payload, 'trainBtn', 'กำลังบันทึก...', function(res) {
+                alert(res.message);
+                if(res.status === 'success') { document.getElementById('trainForm').reset(); document.getElementById('t_year').value="2567"; loadTraining(); }
+            });
+        });
+
+        // Admin
+        function loadAdminData() {
+            callAPI({ action: 'get_admin_data', data: {} }, null, '', function(res) {
+                if(res.status === 'success') {
+                    document.getElementById('adm_user_count').innerText = res.users.length + " คน";
+                    document.getElementById('adm_train_count').innerText = res.total_training + " รายการ";
+                    const tbody = document.getElementById('admUserTbody'); tbody.innerHTML = '';
+                    res.users.forEach(u => { tbody.innerHTML += `<tr><td><div class="fw-bold text-primary">${u.full_name||'-'}</div></td><td>${u.position||'-'}</td><td>${u.email||'-'}</td><td>${u.phone||'-'}</td></tr>`; });
+                }
+            });
+        }
+    </script>
+</body>
+</html>
