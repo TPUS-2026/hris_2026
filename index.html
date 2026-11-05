@@ -15,7 +15,7 @@
         .card { border: none; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); }
         .wrapper { min-height: 82vh; display: flex; align-items: center; }
         .btn { border-radius: 8px; font-weight: 500; }
-        .nav-pills .nav-link { color: #475569; border-radius: 8px; font-weight: 500; margin-bottom: 5px; }
+        .nav-pills .nav-link { color: #475569; border-radius: 8px; font-weight: 500; margin-bottom: 5px; cursor: pointer; }
         .nav-pills .nav-link.active { background-color: #0b5ed7; color: white; }
         .info-label { font-size: 0.9rem; color: #64748b; font-weight: 500; }
         .info-value { font-size: 1.05rem; font-weight: 500; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; }
@@ -100,9 +100,9 @@
                         </div>
                         <div class="card p-2">
                             <ul class="nav nav-pills flex-column" id="userTabs">
-                                <li class="nav-item"><a class="nav-link active" href="#" onclick="switchTab('u_profileTab', this, '.u-tab')"><i class="fa-regular fa-id-card me-2"></i> ข้อมูลส่วนตัว</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#" onclick="switchTab('u_editTab', this, '.u-tab'); fillEditForm();"><i class="fa-solid fa-pen-to-square me-2"></i> แก้ไขข้อมูล & รูปโปรไฟล์</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#" onclick="switchTab('u_trainTab', this, '.u-tab')"><i class="fa-solid fa-graduation-cap me-2"></i> ประวัติการอบรม</a></li>
+                                <li class="nav-item"><a class="nav-link active" id="tabProfile" onclick="switchTab('u_profileTab', this, '.u-tab')"><i class="fa-regular fa-id-card me-2"></i> ข้อมูลส่วนตัว</a></li>
+                                <li class="nav-item"><a class="nav-link" id="tabEdit" onclick="switchTab('u_editTab', this, '.u-tab'); fillEditForm();"><i class="fa-solid fa-pen-to-square me-2"></i> แก้ไขข้อมูล & รูปโปรไฟล์</a></li>
+                                <li class="nav-item"><a class="nav-link" id="tabTrain" onclick="switchTab('u_trainTab', this, '.u-tab'); loadTraining();"><i class="fa-solid fa-graduation-cap me-2"></i> ประวัติการอบรม</a></li>
                             </ul>
                         </div>
                     </div>
@@ -147,8 +147,10 @@
                         <div id="u_trainTab" class="card p-4 u-tab d-none">
                             <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
                                 <h5 class="fw-bold text-primary mb-0"><i class="fa-solid fa-book-open me-2"></i> ประวัติการพัฒนาตนเอง (อบรม)</h5>
-                                <button class="btn btn-sm btn-primary" onclick="document.getElementById('addTrainBox').classList.toggle('d-none')">+ เพิ่มข้อมูลอบรม</button>
+                                <button type="button" class="btn btn-sm btn-primary" id="toggleTrainFormBtn"><i class="fa-solid fa-plus me-1"></i> เพิ่มข้อมูลอบรม</button>
                             </div>
+                            
+                            <!-- ฟอร์มเพิ่มข้อมูลอบรม -->
                             <div id="addTrainBox" class="bg-white border p-3 rounded mb-3 d-none shadow-sm">
                                 <form id="trainForm">
                                     <div class="row g-2">
@@ -156,11 +158,12 @@
                                         <div class="col-md-3"><label class="small text-muted">วันที่อบรม</label><input type="date" class="form-control form-control-sm" id="t_date" required></div>
                                         <div class="col-md-3"><label class="small text-muted">ชื่อหลักสูตร</label><input type="text" class="form-control form-control-sm" id="t_name" required></div>
                                         <div class="col-md-2"><label class="small text-muted">ชั่วโมง</label><input type="number" class="form-control form-control-sm" id="t_hours" required></div>
-                                        <div class="col-md-2"><label class="small text-muted">เกียรติบัตร (PDF/Img)</label><input type="file" class="form-control form-control-sm" id="t_file" accept=".pdf,image/*"></div>
+                                        <div class="col-md-2"><label class="small text-muted">เกียรติบัตร</label><input type="file" class="form-control form-control-sm" id="t_file" accept=".pdf,image/*"></div>
                                         <div class="col-12 text-end mt-2"><button type="submit" class="btn btn-success btn-sm px-4" id="trainBtn">บันทึกข้อมูล</button></div>
                                     </div>
                                 </form>
                             </div>
+
                             <div class="table-responsive">
                                 <table class="table table-bordered text-center align-middle">
                                     <thead class="table-light"><tr><th>วันที่</th><th class="text-start">ชื่อหลักสูตร</th><th>ปีการศึกษา</th><th>ชั่วโมง</th><th>เกียรติบัตร</th></tr></thead>
@@ -208,8 +211,8 @@
 
     <script>
         // =========================================================
-        // ⚠️ แทนที่ URL ด้านล่างด้วย URL เว็บแอป (Web App URL) จาก Google Apps Script ของคุณ
-        const API_URL = "https://script.google.com/macros/s/AKfycbwFM7tGXLKp7dc8sWnLpJLcgcgs4v55GDPDuOu_7h0_Ye6sX4LFZ3KWCjBFGolXqlXA/exec";
+        // ⚠️ วาง URL เว็บแอป (Web App URL) ของ Google Apps Script ของคุณที่นี่
+        const API_URL = "https://script.google.com/macros/s/AKfycbxZ1bA4f3kMFEfBpg08th8knPIczIxXSifIvT68V2z_DqHf14OV48f4jt5JseediKCr/exec";
         // =========================================================
 
         let userData = {};
@@ -218,12 +221,19 @@
             document.getElementById('loginBox').classList.toggle('d-none', view !== 'login');
             document.getElementById('registerBox').classList.toggle('d-none', view !== 'register');
         }
+
         function switchTab(tabId, element, groupClass) {
             document.querySelectorAll(groupClass).forEach(el => el.classList.add('d-none'));
-            document.querySelectorAll(element.parentNode.parentNode.querySelectorAll('.nav-link')).forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('#userTabs .nav-link').forEach(el => el.classList.remove('active'));
             document.getElementById(tabId).classList.remove('d-none');
-            element.classList.add('active');
+            if(element) element.classList.add('active');
         }
+
+        // ปุ่มกดสลับเปิด/ปิดฟอร์มเพิ่มการอบรม
+        document.getElementById('toggleTrainFormBtn').addEventListener('click', function() {
+            const formBox = document.getElementById('addTrainBox');
+            formBox.classList.toggle('d-none');
+        });
 
         function callAPI(payload, btnId, loadingText, callback) {
             let btn = btnId ? document.getElementById(btnId) : null;
@@ -246,18 +256,16 @@
             });
         }
 
-        // แปลงไฟล์เป็น Base64 สำหรับอัปโหลด
         function fileToBase64(fileInputId) {
             return new Promise((resolve) => {
                 const fileInput = document.getElementById(fileInputId);
-                if(fileInput.files.length === 0) { resolve(null); return; }
+                if(!fileInput || fileInput.files.length === 0) { resolve(null); return; }
                 const reader = new FileReader();
                 reader.onload = (e) => resolve(e.target.result);
                 reader.readAsDataURL(fileInput.files[0]);
             });
         }
 
-        // คำนวณอายุงานและวิทยฐานะ
         function calculateWorkLife(startDateStr) {
             if(!startDateStr) return { ageText: "ไม่ระบุวันที่บรรจุ", alertMsg: "กรุณาระบุวันที่บรรจุเพื่อเปิดใช้งานระบบคำนวณวันทำงานและวิทยฐานะ" };
             let start = new Date(startDateStr);
@@ -286,7 +294,8 @@
                     } else {
                         userData = res.data;
                         document.getElementById('userSection').classList.remove('d-none');
-                        setupUserProfile(); loadTraining();
+                        setupUserProfile(); 
+                        loadTraining();
                     }
                 } else alert(res.message);
             });
@@ -302,7 +311,6 @@
             });
         });
 
-        // Setup User Profile & Calculations
         function setupUserProfile() {
             document.getElementById('u_name').innerText = userData.full_name || '-';
             document.getElementById('u_pos').innerText = userData.position || '-';
@@ -318,14 +326,12 @@
                 document.getElementById('u_img').src = userData.profile_img;
             }
 
-            // คำนวณอายุงานและแจ้งเตือน
             let calc = calculateWorkLife(userData.start_date);
             document.getElementById('d_workage').innerText = calc.ageText;
             document.getElementById('d_tenure').innerText = (userData.academic_standing || 'ครูผู้ช่วย/ครู') + " (ปฏิบัติราชการต่อเนื่อง)";
             document.getElementById('alertText').innerText = calc.alertMsg;
         }
 
-        // Edit Profile
         function fillEditForm() {
             document.getElementById('e_name').value = userData.full_name || '';
             document.getElementById('e_phone').value = userData.phone || '';
@@ -334,6 +340,7 @@
             document.getElementById('e_start').value = userData.start_date || '';
             document.getElementById('e_addr').value = userData.current_address || '';
         }
+
         document.getElementById('editForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             let base64Img = await fileToBase64('e_img_file');
@@ -360,18 +367,24 @@
             });
         });
 
-        // Training Management
+        // Load Training History
         function loadTraining() {
             callAPI({ action: 'get_training', data: { email: userData.email } }, null, '', function(res) {
-                const tbody = document.getElementById('trainTbody'); tbody.innerHTML = '';
+                const tbody = document.getElementById('trainTbody'); 
+                if(!tbody) return;
+                tbody.innerHTML = '';
                 if(res.data && res.data.length > 0) {
                     res.data.forEach(tr => {
-                        let certLink = tr.cert_file ? `<a href="${tr.cert_file}" target="_blank" class="btn btn-sm btn-outline-primary py-0"><i class="fa-solid fa-file-pdf"></i> ดูเกียรติบัตร</a>` : '<span class="text-muted small">ไม่มีไฟล์</span>';
+                        let certLink = tr.cert_file ? `<a href="${tr.cert_file}" target="_blank" class="btn btn-sm btn-outline-primary py-0"><i class="fa-solid fa-file-pdf"></i> ดูไฟล์</a>` : '<span class="text-muted small">ไม่มีไฟล์</span>';
                         tbody.innerHTML += `<tr><td>${tr.training_date}</td><td class="text-start">${tr.course_name}</td><td>${tr.academic_year}</td><td class="text-primary fw-bold">${tr.hours}</td><td>${certLink}</td></tr>`;
                     });
-                } else tbody.innerHTML = '<tr><td colspan="5" class="text-muted">ยังไม่มีประวัติการอบรม</td></tr>';
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="5" class="text-muted">ยังไม่มีประวัติการอบรม</td></tr>';
+                }
             });
         }
+
+        // Submit Training
         document.getElementById('trainForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             let certBase64 = await fileToBase64('t_file');
@@ -388,11 +401,15 @@
             };
             callAPI(payload, 'trainBtn', 'กำลังบันทึก...', function(res) {
                 alert(res.message);
-                if(res.status === 'success') { document.getElementById('trainForm').reset(); document.getElementById('t_year').value="2567"; loadTraining(); }
+                if(res.status === 'success') { 
+                    document.getElementById('trainForm').reset(); 
+                    document.getElementById('t_year').value = "2567"; 
+                    document.getElementById('addTrainBox').classList.add('d-none');
+                    loadTraining(); 
+                }
             });
         });
 
-        // Admin Dashboard
         function loadAdminData() {
             callAPI({ action: 'get_admin_data', data: {} }, null, '', function(res) {
                 if(res.status === 'success') {
