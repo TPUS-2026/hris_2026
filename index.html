@@ -1,425 +1,457 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HRIS - โรงเรียนวัดท่าพูด (นครผลประชานุกูล)</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Sarabun', sans-serif; background-color: #f0f4f8; color: #1e293b; min-height: 100vh; display: flex; flex-direction: column; font-size: 1.05rem; }
-        main { flex: 1; }
-        .bg-primary { background-color: #0b5ed7 !important; }
-        .text-primary { color: #0b5ed7 !important; }
-        .card { border: none; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); }
-        .wrapper { min-height: 82vh; display: flex; align-items: center; }
-        .btn { border-radius: 8px; font-weight: 500; }
-        .nav-pills .nav-link { color: #475569; border-radius: 8px; font-weight: 500; margin-bottom: 5px; cursor: pointer; }
-        .nav-pills .nav-link.active { background-color: #0b5ed7; color: white; }
-        .info-label { font-size: 0.9rem; color: #64748b; font-weight: 500; }
-        .info-value { font-size: 1.05rem; font-weight: 500; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; }
-        .form-control, .form-select { border-radius: 8px; border: 1px solid #cbd5e1; }
-        .form-control:focus { border-color: #0b5ed7; box-shadow: 0 0 0 0.2rem rgba(11, 94, 215, 0.15); }
-        .table { font-size: 0.95rem; }
-        .header-gradient { background: linear-gradient(135deg, #0b5ed7 0%, #1e40af 100%); color: white; }
-        .custom-footer { background-color: #ffffff; border-top: 1px solid #e2e8f0; padding: 15px 0; color: #64748b; font-size: 0.85rem; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HRIS - โรงเรียนวัดท่าพูด (นครผลประชานุกูล)</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#14233f;--navy:#1d3a6e;--navy2:#2a52a0;--gold:#e8a317;--gold-soft:#fff4d6;--bg:#f3f5fa;--line:#e2e7f0;--muted:#64708a;--card:#fff}
+*{box-sizing:border-box}
+body{font-family:'Sarabun',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;font-size:1.02rem}
+main{flex:1}
+.card{border:1px solid var(--line);border-radius:16px;box-shadow:0 1px 2px rgba(20,35,63,.04),0 8px 24px rgba(20,35,63,.05);background:var(--card)}
+.btn{border-radius:10px;font-weight:500}
+.btn-brand{background:var(--navy);color:#fff;border:0}
+.btn-brand:hover,.btn-brand:focus{background:var(--navy2);color:#fff}
+.btn-gold{background:var(--gold);color:#3a2900;border:0}
+.btn-gold:hover{background:#f2b52f;color:#3a2900}
+.form-control,.form-select{border-radius:10px;border:1px solid #cfd7e6;padding:.6rem .85rem}
+.form-control:focus{border-color:var(--navy2);box-shadow:0 0 0 .22rem rgba(42,82,160,.18)}
+a:focus-visible,button:focus-visible,.nav-link:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.text-brand{color:var(--navy)!important}
+
+/* Login */
+#authSection{min-height:calc(100vh - 52px);display:flex;align-items:stretch}
+.auth-art{background:linear-gradient(155deg,var(--ink) 0%,var(--navy) 60%,#35609f 100%);color:#fff;position:relative;overflow:hidden}
+.auth-art::after{content:"";position:absolute;right:-120px;bottom:-120px;width:380px;height:380px;border-radius:50%;border:56px solid rgba(232,163,23,.22)}
+.auth-art .crest{width:68px;height:68px;border-radius:18px;background:var(--gold);color:#3a2900;display:grid;place-items:center;font-size:1.9rem}
+.auth-panel{display:flex;align-items:center;justify-content:center;padding:2rem}
+.auth-form{width:100%;max-width:410px}
+.pw-wrap{position:relative}
+.pw-wrap button{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:none;color:var(--muted);padding:.4rem .6rem}
+
+/* App bar */
+.topbar{background:var(--ink);color:#fff;border-bottom:3px solid var(--gold)}
+.topbar .brand{font-weight:600}
+.avatar{width:112px;height:112px;border-radius:50%;object-fit:cover;border:4px solid #fff;box-shadow:0 0 0 2px var(--gold),0 6px 18px rgba(20,35,63,.15);background:#e6ebf5}
+.side-nav .nav-link{color:var(--muted);border-radius:10px;font-weight:500;padding:.65rem .9rem;cursor:pointer;display:flex;align-items:center;gap:.65rem}
+.side-nav .nav-link:hover{background:#eef2fa;color:var(--navy)}
+.side-nav .nav-link.active{background:var(--navy);color:#fff}
+.chip{display:inline-block;padding:.2rem .7rem;border-radius:999px;background:var(--gold-soft);color:#7a5200;font-size:.85rem;font-weight:500}
+.notice{border-radius:14px;background:var(--gold-soft);border:1px solid #f3d98a;padding:1rem 1.2rem;display:flex;gap:.9rem;align-items:flex-start}
+.notice i{color:#b57e00;font-size:1.4rem;margin-top:2px}
+.stat{padding:1rem 1.2rem;display:flex;align-items:center;gap:1rem}
+.stat .ico{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:#e8eefb;color:var(--navy);font-size:1.2rem;flex:none}
+.stat .num{font-size:1.6rem;font-weight:700;line-height:1.1}
+.stat .lbl{color:var(--muted);font-size:.9rem}
+.info-label{font-size:.85rem;color:var(--muted);font-weight:500;margin-bottom:2px}
+.info-value{font-weight:500;padding:.55rem .8rem;background:#f7f9fd;border:1px solid var(--line);border-radius:10px;min-height:42px;word-break:break-word}
+.section-title{font-weight:600;font-size:1.15rem;display:flex;align-items:center;gap:.6rem}
+.section-title i{color:var(--gold)}
+.table thead th{background:#eef2fa;color:var(--navy);font-weight:600;border-bottom:0;white-space:nowrap}
+.table td,.table th{padding:.7rem .8rem}
+.empty{padding:2.2rem 1rem;text-align:center;color:var(--muted)}
+.empty i{font-size:2rem;color:#b9c3d8;display:block;margin-bottom:.5rem}
+.toast-wrap{position:fixed;top:16px;right:16px;z-index:2000;display:flex;flex-direction:column;gap:8px}
+.toast-i{background:#fff;border:1px solid var(--line);border-left:5px solid var(--navy);border-radius:12px;padding:.75rem 1rem;box-shadow:0 10px 30px rgba(20,35,63,.18);min-width:240px;max-width:360px}
+.toast-i.ok{border-left-color:#16a34a}.toast-i.err{border-left-color:#dc2626}
+.custom-footer{background:#fff;border-top:1px solid var(--line);padding:14px 0;color:var(--muted);font-size:.85rem}
+@media(max-width:991px){.auth-art{display:none}}
+@media(prefers-reduced-motion:no-preference){.tab-pane-x{animation:fadeIn .25s ease}@keyframes fadeIn{from{opacity:0}to{opacity:1}}}
+</style>
 </head>
 <body>
+<div class="toast-wrap" id="toasts" aria-live="polite"></div>
 
-    <main>
-        <!-- ================= 1. หน้า Login & Register ================= -->
-        <div id="authSection" class="container wrapper">
-            <div class="row w-100 justify-content-center m-0">
-                <div class="col-12 col-sm-10 col-md-8 col-lg-5">
-                    <div class="card overflow-hidden">
-                        <div class="header-gradient p-4 text-center">
-                            <i class="fa-solid fa-school-flag fa-3x mb-2"></i>
-                            <h3 class="mb-0 fw-bold">ระบบสารสนเทศบุคลากร</h3>
-                            <div class="fw-light small mt-1">โรงเรียนวัดท่าพูด (นครผลประชานุกูล)</div>
-                        </div>
-                        
-                        <div id="loginBox" class="card-body p-4 p-md-5">
-                            <form id="loginForm">
-                                <div class="mb-3">
-                                    <label class="form-label text-muted small fw-bold">อีเมล</label>
-                                    <input type="email" class="form-control" id="loginEmail" required>
-                                </div>
-                                <div class="mb-4">
-                                    <label class="form-label text-muted small fw-bold">รหัสผ่าน</label>
-                                    <input type="password" class="form-control" id="loginPassword" required>
-                                </div>
-                                <button type="submit" class="btn btn-primary w-100 py-2" id="loginBtn">เข้าสู่ระบบ</button>
-                            </form>
-                            <div class="text-center mt-3">
-                                <a href="#" onclick="toggleAuth('register')" class="text-decoration-none small text-primary">ลงทะเบียนข้าราชการใหม่</a>
-                            </div>
-                        </div>
+<main>
+<!-- ============ LOGIN / REGISTER ============ -->
+<div id="authSection" class="row g-0 m-0 w-100">
+  <div class="col-lg-6 auth-art d-flex flex-column justify-content-center p-5">
+    <div class="crest mb-4"><i class="fa-solid fa-school-flag"></i></div>
+    <h1 class="fw-bold mb-2" style="font-size:2.3rem">ระบบสารสนเทศบุคลากร</h1>
+    <p class="fs-5 mb-4 opacity-75">โรงเรียนวัดท่าพูด (นครผลประชานุกูล)</p>
+    <ul class="list-unstyled opacity-90 mb-0">
+      <li class="mb-2"><i class="fa-solid fa-circle-check me-2" style="color:var(--gold)"></i>ดูอายุราชการและสถานะวิทยฐานะของตนเอง</li>
+      <li class="mb-2"><i class="fa-solid fa-circle-check me-2" style="color:var(--gold)"></i>บันทึกประวัติการอบรมพร้อมแนบเกียรติบัตร</li>
+      <li><i class="fa-solid fa-circle-check me-2" style="color:var(--gold)"></i>แก้ไขข้อมูลส่วนตัวและรูปโปรไฟล์ได้ทุกเมื่อ</li>
+    </ul>
+  </div>
+  <div class="col-lg-6 auth-panel">
+    <div class="auth-form">
+      <div id="loginBox">
+        <h3 class="fw-bold mb-1">เข้าสู่ระบบ</h3>
+        <p class="text-muted mb-4">กรอกอีเมลและรหัสผ่านที่ลงทะเบียนไว้</p>
+        <form id="loginForm">
+          <div class="mb-3"><label class="form-label fw-medium" for="loginEmail">อีเมล</label><input type="email" class="form-control" id="loginEmail" autocomplete="username" required></div>
+          <div class="mb-4"><label class="form-label fw-medium" for="loginPassword">รหัสผ่าน</label>
+            <div class="pw-wrap"><input type="password" class="form-control" id="loginPassword" autocomplete="current-password" required><button type="button" data-pw="loginPassword" aria-label="แสดงรหัสผ่าน"><i class="fa-regular fa-eye"></i></button></div></div>
+          <button type="submit" class="btn btn-brand w-100 py-2" id="loginBtn">เข้าสู่ระบบ</button>
+        </form>
+        <div class="text-center mt-4"><a href="#" id="goRegister" class="text-decoration-none text-brand fw-medium">ลงทะเบียนข้าราชการใหม่</a></div>
+      </div>
+      <div id="registerBox" class="d-none">
+        <h3 class="fw-bold mb-1">ลงทะเบียนบุคลากรใหม่</h3>
+        <p class="text-muted mb-4">กรอกข้อมูลพื้นฐาน แล้วเพิ่มรายละเอียดอื่นหลังเข้าสู่ระบบ</p>
+        <form id="registerForm">
+          <div class="mb-3"><label class="form-label fw-medium" for="regName">ชื่อ-นามสกุล</label><input type="text" class="form-control" id="regName" required></div>
+          <div class="mb-3"><label class="form-label fw-medium" for="regPos">ตำแหน่ง</label><input type="text" class="form-control" id="regPos" required></div>
+          <div class="mb-3"><label class="form-label fw-medium" for="regEmail">อีเมล (ใช้เข้าระบบ)</label><input type="email" class="form-control" id="regEmail" autocomplete="username" required></div>
+          <div class="mb-4"><label class="form-label fw-medium" for="regPassword">รหัสผ่าน</label>
+            <div class="pw-wrap"><input type="password" class="form-control" id="regPassword" autocomplete="new-password" minlength="6" required><button type="button" data-pw="regPassword" aria-label="แสดงรหัสผ่าน"><i class="fa-regular fa-eye"></i></button></div></div>
+          <button type="submit" class="btn btn-gold w-100 py-2" id="regBtn">ลงทะเบียน</button>
+        </form>
+        <div class="text-center mt-4"><a href="#" id="goLogin" class="text-decoration-none text-muted"><i class="fa-solid fa-arrow-left me-1"></i>กลับไปหน้าเข้าสู่ระบบ</a></div>
+      </div>
+    </div>
+  </div>
+</div>
 
-                        <div id="registerBox" class="card-body p-4 p-md-5 d-none">
-                            <h5 class="text-center fw-bold mb-4 text-primary">ลงทะเบียนข้อมูลพื้นฐาน</h5>
-                            <form id="registerForm">
-                                <div class="mb-2"><label class="form-label small fw-bold">อีเมล (ใช้เข้าระบบ)</label><input type="email" class="form-control" id="regEmail" required></div>
-                                <div class="mb-2"><label class="form-label small fw-bold">รหัสผ่าน</label><input type="password" class="form-control" id="regPassword" required></div>
-                                <div class="mb-2"><label class="form-label small fw-bold">ชื่อ-นามสกุล</label><input type="text" class="form-control" id="regName" required></div>
-                                <div class="mb-4"><label class="form-label small fw-bold">ตำแหน่ง</label><input type="text" class="form-control" id="regPos" required></div>
-                                <button type="submit" class="btn btn-success w-100 py-2" id="regBtn">บันทึกการลงทะเบียน</button>
-                            </form>
-                            <div class="text-center mt-3">
-                                <a href="#" onclick="toggleAuth('login')" class="text-decoration-none small text-secondary"><i class="fa-solid fa-arrow-left"></i> กลับไปหน้าเข้าสู่ระบบ</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!-- ============ USER ============ -->
+<div id="userSection" class="d-none pb-5">
+  <nav class="topbar py-3 mb-4"><div class="container d-flex justify-content-between align-items-center">
+    <span class="brand"><i class="fa-solid fa-school me-2" style="color:var(--gold)"></i>HRIS วัดท่าพูด</span>
+    <button class="btn btn-sm btn-outline-light logout-btn"><i class="fa-solid fa-right-from-bracket me-1"></i>ออกจากระบบ</button>
+  </div></nav>
+  <div class="container">
+    <div class="notice mb-4" role="status"><i class="fa-solid fa-bell"></i><div><div class="fw-semibold">สถานะสำคัญ</div><div id="alertText">กำลังประมวลผลข้อมูล...</div></div></div>
+    <div class="row g-4">
+      <div class="col-lg-3">
+        <div class="card p-4 text-center mb-3">
+          <img id="u_img" class="avatar mx-auto mb-3" alt="รูปโปรไฟล์">
+          <h5 class="fw-bold text-brand mb-1" id="u_name">-</h5>
+          <p class="text-muted small mb-2" id="u_pos">-</p>
+          <div><span class="chip" id="u_acad">-</span></div>
+        </div>
+        <div class="card p-2"><div class="nav flex-column side-nav" id="userTabs">
+          <a class="nav-link active" tabindex="0" data-tab="u_profileTab"><i class="fa-regular fa-id-card"></i>ข้อมูลส่วนตัว</a>
+          <a class="nav-link" tabindex="0" data-tab="u_editTab"><i class="fa-solid fa-pen-to-square"></i>แก้ไขข้อมูล &amp; รูปโปรไฟล์</a>
+          <a class="nav-link" tabindex="0" data-tab="u_trainTab"><i class="fa-solid fa-graduation-cap"></i>ประวัติการอบรม</a>
+        </div></div>
+      </div>
+      <div class="col-lg-9">
+        <div class="row g-3 mb-4">
+          <div class="col-sm-6"><div class="card stat"><div class="ico"><i class="fa-solid fa-hourglass-half"></i></div><div><div class="num" id="s_age">-</div><div class="lbl">อายุราชการปัจจุบัน</div></div></div></div>
+          <div class="col-sm-6"><div class="card stat"><div class="ico"><i class="fa-solid fa-clock"></i></div><div><div class="num" id="s_hours">-</div><div class="lbl">ชั่วโมงอบรมสะสม</div></div></div></div>
         </div>
 
-        <!-- ================= 2. หน้า User Dashboard ================= -->
-        <div id="userSection" class="d-none pb-5">
-            <nav class="navbar header-gradient mb-4 py-3 shadow-sm">
-                <div class="container">
-                    <span class="navbar-brand mb-0 h1 text-white"><i class="fa-solid fa-school me-2"></i> HRIS วัดท่าพูด</span>
-                    <button class="btn btn-sm btn-light text-primary" onclick="location.reload()">ออกจากระบบ</button>
-                </div>
-            </nav>
-            <div class="container">
-                <!-- ส่วนแจ้งเตือนสำคัญ -->
-                <div id="alertBox" class="alert alert-warning shadow-sm mb-4 d-flex align-items-center" role="alert">
-                    <i class="fa-solid fa-triangle-exclamation fa-2x me-3"></i>
-                    <div><strong>แจ้งเตือนสถานะสำคัญ:</strong> <span id="alertText">กำลังประมวลผลข้อมูลวันทำงานและวิทยฐานะ...</span></div>
-                </div>
-
-                <div class="row g-4">
-                    <div class="col-lg-3">
-                        <div class="card p-4 text-center mb-3">
-                            <img id="u_img" src="https://via.placeholder.com/150" class="rounded-circle mx-auto mb-3 border border-3 shadow-sm" style="width:110px; height:110px; object-fit:cover;">
-                            <h5 class="fw-bold text-primary mb-1" id="u_name">-</h5>
-                            <p class="text-muted small mb-0" id="u_pos">-</p>
-                            <div class="badge bg-secondary mt-2" id="u_acad">-</div>
-                        </div>
-                        <div class="card p-2">
-                            <ul class="nav nav-pills flex-column" id="userTabs">
-                                <li class="nav-item"><a class="nav-link active" id="tabProfile" onclick="switchTab('u_profileTab', this, '.u-tab')"><i class="fa-regular fa-id-card me-2"></i> ข้อมูลส่วนตัว</a></li>
-                                <li class="nav-item"><a class="nav-link" id="tabEdit" onclick="switchTab('u_editTab', this, '.u-tab'); fillEditForm();"><i class="fa-solid fa-pen-to-square me-2"></i> แก้ไขข้อมูล & รูปโปรไฟล์</a></li>
-                                <li class="nav-item"><a class="nav-link" id="tabTrain" onclick="switchTab('u_trainTab', this, '.u-tab'); loadTraining();"><i class="fa-solid fa-graduation-cap me-2"></i> ประวัติการอบรม</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="col-lg-9">
-                        <!-- แท็บ: โปรไฟล์ -->
-                        <div id="u_profileTab" class="card p-4 u-tab">
-                            <h5 class="fw-bold text-primary mb-3 pb-2 border-bottom"><i class="fa-solid fa-user-check me-2"></i> ประวัติส่วนตัวและการทำงาน</h5>
-                            <div class="row g-3">
-                                <div class="col-md-6"><div class="info-label">อีเมล</div><div class="info-value" id="d_email">-</div></div>
-                                <div class="col-md-6"><div class="info-label">เบอร์โทรศัพท์</div><div class="info-value" id="d_phone">-</div></div>
-                                <div class="col-md-6"><div class="info-label">เลขที่ใบประกอบวิชาชีพ</div><div class="info-value" id="d_lic">-</div></div>
-                                <div class="col-md-6"><div class="info-label">วันที่บรรจุ</div><div class="info-value" id="d_start">-</div></div>
-                                <div class="col-md-6"><div class="info-label">อายุงานราชการปัจจุบัน</div><div class="info-value text-success fw-bold" id="d_workage">-</div></div>
-                                <div class="col-md-6"><div class="info-label">สถานะวิทยฐานะ / เกณฑ์ประเมิน</div><div class="info-value text-primary fw-bold" id="d_tenure">-</div></div>
-                                <div class="col-12"><div class="info-label">ที่อยู่ปัจจุบัน</div><div class="info-value" id="d_addr">-</div></div>
-                                <div class="col-12"><div class="info-label">ภาระงานสอน</div><div class="info-value" id="d_teach">-</div></div>
-                            </div>
-                        </div>
-
-                        <!-- แท็บ: แก้ไขข้อมูล -->
-                        <div id="u_editTab" class="card p-4 u-tab d-none">
-                            <h5 class="fw-bold text-primary mb-3 pb-2 border-bottom"><i class="fa-solid fa-pen me-2"></i> แก้ไขข้อมูลและอัปโหลดรูปภาพ</h5>
-                            <form id="editForm">
-                                <div class="row g-3">
-                                    <div class="col-md-6"><label class="info-label">ชื่อ-นามสกุล</label><input type="text" class="form-control" id="e_name"></div>
-                                    <div class="col-md-6"><label class="info-label">เบอร์โทรศัพท์</label><input type="text" class="form-control" id="e_phone"></div>
-                                    <div class="col-md-6"><label class="info-label">วิทยฐานะ</label><input type="text" class="form-control" id="e_acad"></div>
-                                    <div class="col-md-6"><label class="info-label">เลขใบประกอบวิชาชีพ</label><input type="text" class="form-control" id="e_lic"></div>
-                                    <div class="col-md-6"><label class="info-label">วันที่บรรจุ (YYYY-MM-DD)</label><input type="date" class="form-control" id="e_start"></div>
-                                    <div class="col-md-6">
-                                        <label class="info-label">อัปโหลดภาพถ่ายชุดปกติขาว (JPG/PNG)</label>
-                                        <input type="file" class="form-control" id="e_img_file" accept="image/*">
-                                    </div>
-                                    <div class="col-12"><label class="info-label">ที่อยู่ปัจจุบัน</label><input type="text" class="form-control" id="e_addr"></div>
-                                    <div class="col-12 text-end mt-4"><button type="submit" class="btn btn-primary px-4" id="editBtn">บันทึกการแก้ไข</button></div>
-                                </div>
-                            </form>
-                        </div>
-
-                        <!-- แท็บ: การอบรม -->
-                        <div id="u_trainTab" class="card p-4 u-tab d-none">
-                            <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
-                                <h5 class="fw-bold text-primary mb-0"><i class="fa-solid fa-book-open me-2"></i> ประวัติการพัฒนาตนเอง (อบรม)</h5>
-                                <button type="button" class="btn btn-sm btn-primary" id="toggleTrainFormBtn"><i class="fa-solid fa-plus me-1"></i> เพิ่มข้อมูลอบรม</button>
-                            </div>
-                            
-                            <!-- ฟอร์มเพิ่มข้อมูลอบรม -->
-                            <div id="addTrainBox" class="bg-white border p-3 rounded mb-3 d-none shadow-sm">
-                                <form id="trainForm">
-                                    <div class="row g-2">
-                                        <div class="col-md-2"><label class="small text-muted">ปีการศึกษา</label><input type="text" class="form-control form-control-sm" id="t_year" value="2567" required></div>
-                                        <div class="col-md-3"><label class="small text-muted">วันที่อบรม</label><input type="date" class="form-control form-control-sm" id="t_date" required></div>
-                                        <div class="col-md-3"><label class="small text-muted">ชื่อหลักสูตร</label><input type="text" class="form-control form-control-sm" id="t_name" required></div>
-                                        <div class="col-md-2"><label class="small text-muted">ชั่วโมง</label><input type="number" class="form-control form-control-sm" id="t_hours" required></div>
-                                        <div class="col-md-2"><label class="small text-muted">เกียรติบัตร</label><input type="file" class="form-control form-control-sm" id="t_file" accept=".pdf,image/*"></div>
-                                        <div class="col-12 text-end mt-2"><button type="submit" class="btn btn-success btn-sm px-4" id="trainBtn">บันทึกข้อมูล</button></div>
-                                    </div>
-                                </form>
-                            </div>
-
-                            <div class="table-responsive">
-                                <table class="table table-bordered text-center align-middle">
-                                    <thead class="table-light"><tr><th>วันที่</th><th class="text-start">ชื่อหลักสูตร</th><th>ปีการศึกษา</th><th>ชั่วโมง</th><th>เกียรติบัตร</th></tr></thead>
-                                    <tbody id="trainTbody"><tr><td colspan="5">กำลังโหลดข้อมูล...</td></tr></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div id="u_profileTab" class="card p-4 u-tab tab-pane-x">
+          <div class="section-title mb-3"><i class="fa-solid fa-user-check"></i>ประวัติส่วนตัวและการทำงาน</div>
+          <div class="row g-3">
+            <div class="col-md-6"><div class="info-label">อีเมล</div><div class="info-value" id="d_email">-</div></div>
+            <div class="col-md-6"><div class="info-label">เบอร์โทรศัพท์</div><div class="info-value" id="d_phone">-</div></div>
+            <div class="col-md-6"><div class="info-label">เลขที่ใบประกอบวิชาชีพ</div><div class="info-value" id="d_lic">-</div></div>
+            <div class="col-md-6"><div class="info-label">วันที่บรรจุ</div><div class="info-value" id="d_start">-</div></div>
+            <div class="col-md-6"><div class="info-label">อายุงานราชการ</div><div class="info-value fw-bold text-success" id="d_workage">-</div></div>
+            <div class="col-md-6"><div class="info-label">สถานะวิทยฐานะ</div><div class="info-value fw-bold text-brand" id="d_tenure">-</div></div>
+            <div class="col-12"><div class="info-label">ที่อยู่ปัจจุบัน</div><div class="info-value" id="d_addr">-</div></div>
+            <div class="col-12"><div class="info-label">ภาระงานสอน</div><div class="info-value" id="d_teach">-</div></div>
+          </div>
         </div>
 
-        <!-- ================= 3. หน้า Admin Dashboard ================= -->
-        <div id="adminSection" class="d-none pb-5">
-            <nav class="navbar bg-dark mb-4 py-3 shadow-sm">
-                <div class="container">
-                    <span class="navbar-brand mb-0 h1 text-white"><i class="fa-solid fa-shield-halved me-2 text-warning"></i> Admin Dashboard (ผู้ดูแลระบบ)</span>
-                    <button class="btn btn-sm btn-outline-light" onclick="location.reload()">ออกจากระบบ</button>
-                </div>
-            </nav>
-            <div class="container">
-                <div class="row mb-4">
-                    <div class="col-md-6"><div class="card p-3 border-start border-primary border-4"><h6 class="text-muted">บุคลากรทั้งหมด</h6><h3 class="mb-0 fw-bold" id="adm_user_count">-</h3></div></div>
-                    <div class="col-md-6"><div class="card p-3 border-start border-success border-4"><h6 class="text-muted">รายการอบรมรวมโรงเรียน</h6><h3 class="mb-0 fw-bold" id="adm_train_count">-</h3></div></div>
-                </div>
-                <div class="card p-4">
-                    <h5 class="fw-bold mb-3"><i class="fa-solid fa-users me-2"></i> รายชื่อบุคลากรโรงเรียนวัดท่าพูด</h5>
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle">
-                            <thead class="table-dark"><tr><th>ชื่อ-นามสกุล</th><th>ตำแหน่ง</th><th>อีเมล</th><th>เบอร์โทร</th><th>วันที่บรรจุ</th></tr></thead>
-                            <tbody id="admUserTbody"><tr><td colspan="5" class="text-center">กำลังโหลดข้อมูล...</td></tr></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+        <div id="u_editTab" class="card p-4 u-tab d-none">
+          <div class="section-title mb-3"><i class="fa-solid fa-pen"></i>แก้ไขข้อมูลและอัปโหลดรูปภาพ</div>
+          <form id="editForm"><div class="row g-3">
+            <div class="col-md-6"><label class="info-label" for="e_name">ชื่อ-นามสกุล</label><input type="text" class="form-control" id="e_name" required></div>
+            <div class="col-md-6"><label class="info-label" for="e_phone">เบอร์โทรศัพท์</label><input type="tel" class="form-control" id="e_phone"></div>
+            <div class="col-md-6"><label class="info-label" for="e_acad">วิทยฐานะ</label><input type="text" class="form-control" id="e_acad"></div>
+            <div class="col-md-6"><label class="info-label" for="e_lic">เลขใบประกอบวิชาชีพ</label><input type="text" class="form-control" id="e_lic"></div>
+            <div class="col-md-6"><label class="info-label" for="e_start">วันที่บรรจุ</label><input type="date" class="form-control" id="e_start"></div>
+            <div class="col-md-6"><label class="info-label" for="e_img_file">รูปถ่ายชุดปกติขาว (JPG/PNG)</label><input type="file" class="form-control" id="e_img_file" accept="image/*"></div>
+            <div class="col-12"><label class="info-label" for="e_addr">ที่อยู่ปัจจุบัน</label><input type="text" class="form-control" id="e_addr"></div>
+            <div class="col-12 text-end mt-3"><button type="submit" class="btn btn-brand px-4" id="editBtn">บันทึกการแก้ไข</button></div>
+          </div></form>
         </div>
-    </main>
 
-    <!-- ส่วนท้าย (Footer) -->
-    <footer class="custom-footer text-center mt-auto shadow-sm">
-        <div class="container">
-            <span class="fw-bold"><i class="fa-solid fa-code me-1"></i> Copyright © พัฒนาระบบโดยปัญญา(ไม่)ประดิษฐ์</span>
+        <div id="u_trainTab" class="card p-4 u-tab d-none">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="section-title"><i class="fa-solid fa-book-open"></i>ประวัติการพัฒนาตนเอง (อบรม)</div>
+            <button type="button" class="btn btn-sm btn-brand" id="toggleTrainFormBtn"><i class="fa-solid fa-plus me-1"></i>เพิ่มการอบรม</button>
+          </div>
+          <div id="addTrainBox" class="border rounded-3 p-3 mb-3 d-none" style="background:#f7f9fd">
+            <form id="trainForm"><div class="row g-2">
+              <div class="col-md-2"><label class="small text-muted" for="t_year">ปีการศึกษา</label><input type="text" class="form-control form-control-sm" id="t_year" required></div>
+              <div class="col-md-3"><label class="small text-muted" for="t_date">วันที่อบรม</label><input type="date" class="form-control form-control-sm" id="t_date" required></div>
+              <div class="col-md-3"><label class="small text-muted" for="t_name">ชื่อหลักสูตร</label><input type="text" class="form-control form-control-sm" id="t_name" required></div>
+              <div class="col-md-2"><label class="small text-muted" for="t_hours">ชั่วโมง</label><input type="number" min="0" step="0.5" class="form-control form-control-sm" id="t_hours" required></div>
+              <div class="col-md-2"><label class="small text-muted" for="t_file">เกียรติบัตร</label><input type="file" class="form-control form-control-sm" id="t_file" accept=".pdf,image/*"></div>
+              <div class="col-12 text-end mt-2"><button type="submit" class="btn btn-gold btn-sm px-4" id="trainBtn">บันทึกการอบรม</button></div>
+            </div></form>
+          </div>
+          <div class="table-responsive"><table class="table table-hover align-middle mb-0">
+            <thead><tr><th>วันที่</th><th>ชื่อหลักสูตร</th><th class="text-center">ปีการศึกษา</th><th class="text-center">ชั่วโมง</th><th class="text-center">เกียรติบัตร</th></tr></thead>
+            <tbody id="trainTbody"></tbody>
+          </table></div>
         </div>
-    </footer>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <script>
-        // =========================================================
-        // ⚠️ วาง URL เว็บแอป (Web App URL) ของ Google Apps Script ของคุณที่นี่
-        const API_URL = "https://script.google.com/macros/s/AKfycbxZ1bA4f3kMFEfBpg08th8knPIczIxXSifIvT68V2z_DqHf14OV48f4jt5JseediKCr/exec";
-        // =========================================================
+<!-- ============ ADMIN ============ -->
+<div id="adminSection" class="d-none pb-5">
+  <nav class="topbar py-3 mb-4"><div class="container d-flex justify-content-between align-items-center">
+    <span class="brand"><i class="fa-solid fa-shield-halved me-2" style="color:var(--gold)"></i>ผู้ดูแลระบบ</span>
+    <button class="btn btn-sm btn-outline-light logout-btn"><i class="fa-solid fa-right-from-bracket me-1"></i>ออกจากระบบ</button>
+  </div></nav>
+  <div class="container">
+    <div class="row g-3 mb-4">
+      <div class="col-md-6"><div class="card stat"><div class="ico"><i class="fa-solid fa-users"></i></div><div><div class="num" id="adm_user_count">-</div><div class="lbl">บุคลากรทั้งหมด</div></div></div></div>
+      <div class="col-md-6"><div class="card stat"><div class="ico"><i class="fa-solid fa-certificate"></i></div><div><div class="num" id="adm_train_count">-</div><div class="lbl">รายการอบรมรวมทั้งโรงเรียน</div></div></div></div>
+    </div>
+    <div class="card p-4">
+      <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mb-3">
+        <div class="section-title"><i class="fa-solid fa-users"></i>รายชื่อบุคลากร</div>
+        <input type="search" id="admSearch" class="form-control" style="max-width:280px" placeholder="ค้นหาชื่อ ตำแหน่ง อีเมล">
+      </div>
+      <div class="table-responsive"><table class="table table-hover align-middle mb-0">
+        <thead><tr><th>ชื่อ-นามสกุล</th><th>ตำแหน่ง</th><th>อีเมล</th><th>เบอร์โทร</th><th>วันที่บรรจุ</th></tr></thead>
+        <tbody id="admUserTbody"></tbody>
+      </table></div>
+    </div>
+  </div>
+</div>
+</main>
 
-        let userData = {};
+<footer class="custom-footer text-center mt-auto"><div class="container"><i class="fa-solid fa-code me-1"></i>Copyright © พัฒนาระบบโดยปัญญา(ไม่)ประดิษฐ์</div></footer>
 
-        function toggleAuth(view) {
-            document.getElementById('loginBox').classList.toggle('d-none', view !== 'login');
-            document.getElementById('registerBox').classList.toggle('d-none', view !== 'register');
-        }
+<script>
+// ⚠️ วาง URL เว็บแอปของ Google Apps Script (Deploy > Web app > Who has access: Anyone)
+const API_URL = "https://script.google.com/macros/s/AKfycbxZ1bA4f3kMFEfBpg08th8knPIczIxXSifIvT68V2z_DqHf14OV48f4jt5JseediKCr/exec";
 
-        function switchTab(tabId, element, groupClass) {
-            document.querySelectorAll(groupClass).forEach(el => el.classList.add('d-none'));
-            document.querySelectorAll('#userTabs .nav-link').forEach(el => el.classList.remove('active'));
-            document.getElementById(tabId).classList.remove('d-none');
-            if(element) element.classList.add('active');
-        }
+const $ = id => document.getElementById(id);
+const SESSION_KEY = 'hris_session';
+const DEFAULT_AVATAR = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#e6ebf5"/><circle cx="50" cy="38" r="18" fill="#9fb0d0"/><path d="M14 92c4-24 20-34 36-34s32 10 36 34z" fill="#9fb0d0"/></svg>');
+let userData = {}, adminUsers = [], trainingLoaded = false;
 
-        // ปุ่มกดสลับเปิด/ปิดฟอร์มเพิ่มการอบรม
-        document.getElementById('toggleTrainFormBtn').addEventListener('click', function() {
-            const formBox = document.getElementById('addTrainBox');
-            formBox.classList.toggle('d-none');
-        });
+/* ---------- helpers ---------- */
+function esc(v){ return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function toast(msg, type){
+  const el = document.createElement('div'); el.className = 'toast-i ' + (type || '');
+  el.textContent = msg; $('toasts').appendChild(el); setTimeout(() => el.remove(), 4000);
+}
+// แปลงค่าวันที่จาก Google Sheets (อาจเป็น ISO UTC) ให้เป็น Date ตามเวลาท้องถิ่น
+function parseDate(v){
+  if(!v) return null;
+  if(/^\d{4}-\d{2}-\d{2}$/.test(v)){ const [y,m,d] = v.split('-').map(Number); return new Date(y, m-1, d); }
+  const d = new Date(v); return isNaN(d) ? null : new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+function toInputDate(v){
+  const d = parseDate(v); if(!d) return '';
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function fmtDate(v){
+  const d = parseDate(v);
+  return d ? d.toLocaleDateString('th-TH', {day:'numeric', month:'short', year:'numeric'}) : (v || '-');
+}
+// ลิงก์ Google Drive → URL ที่แสดงเป็นรูปได้
+function imgUrl(u){
+  if(!u) return DEFAULT_AVATAR;
+  if(u.startsWith('data:')) return u;
+  const m = u.match(/\/d\/([\w-]+)/) || u.match(/[?&]id=([\w-]+)/);
+  return m ? `https://drive.google.com/thumbnail?id=${m[1]}&sz=w400` : u;
+}
+function safeLink(u){ return /^https?:\/\//i.test(u || '') ? u : ''; }
+// ย่อรูปก่อนอัปโหลด (ลดขนาด payload ที่ส่งไป Apps Script)
+function fileToBase64(id, opts = {}){
+  return new Promise((resolve, reject) => {
+    const f = $(id) && $(id).files[0]; if(!f){ resolve(null); return; }
+    if(f.size > 8 * 1024 * 1024){ reject(new Error('ไฟล์ใหญ่เกิน 8 MB')); return; }
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error('อ่านไฟล์ไม่สำเร็จ'));
+    reader.onload = e => {
+      if(!opts.compress || !f.type.startsWith('image/')){ resolve(e.target.result); return; }
+      const img = new Image();
+      img.onload = () => {
+        const max = 480, r = Math.min(1, max / Math.max(img.width, img.height));
+        const c = document.createElement('canvas'); c.width = Math.round(img.width * r); c.height = Math.round(img.height * r);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        resolve(c.toDataURL('image/jpeg', 0.82));
+      };
+      img.onerror = () => reject(new Error('ไฟล์รูปไม่ถูกต้อง'));
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(f);
+  });
+}
 
-        function callAPI(payload, btnId, loadingText, callback) {
-            let btn = btnId ? document.getElementById(btnId) : null;
-            let orig = btn ? btn.innerHTML : "";
-            if(btn) { btn.innerHTML = loadingText; btn.disabled = true; }
-            
-            fetch(API_URL, {
-                method: 'POST',
-                body: JSON.stringify(payload),
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' }
-            })
-            .then(res => res.json())
-            .then(result => {
-                if(btn) { btn.innerHTML = orig; btn.disabled = false; }
-                callback(result);
-            })
-            .catch(err => {
-                if(btn) { btn.innerHTML = orig; btn.disabled = false; }
-                alert('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์');
-            });
-        }
+function callAPI(payload, btnId, loadingText, callback){
+  const btn = btnId ? $(btnId) : null, orig = btn ? btn.innerHTML : '';
+  if(btn){ btn.innerHTML = loadingText; btn.disabled = true; }
+  const done = () => { if(btn){ btn.innerHTML = orig; btn.disabled = false; } };
+  fetch(API_URL, { method:'POST', body: JSON.stringify(payload), headers:{'Content-Type':'text/plain;charset=utf-8'}, redirect:'follow' })
+    .then(res => res.text())
+    .then(txt => {
+      let result; try { result = JSON.parse(txt); } catch(e) { throw new Error('เซิร์ฟเวอร์ตอบกลับไม่ถูกต้อง (ตรวจสอบว่า Deploy เป็น "Anyone" และใช้ URL /exec ล่าสุด)'); }
+      done(); callback(result);
+    })
+    .catch(err => { done(); toast(err.message || 'เชื่อมต่อเซิร์ฟเวอร์ไม่สำเร็จ', 'err'); });
+}
 
-        function fileToBase64(fileInputId) {
-            return new Promise((resolve) => {
-                const fileInput = document.getElementById(fileInputId);
-                if(!fileInput || fileInput.files.length === 0) { resolve(null); return; }
-                const reader = new FileReader();
-                reader.onload = (e) => resolve(e.target.result);
-                reader.readAsDataURL(fileInput.files[0]);
-            });
-        }
+/* ---------- auth UI ---------- */
+function toggleAuth(view){ $('loginBox').classList.toggle('d-none', view !== 'login'); $('registerBox').classList.toggle('d-none', view !== 'register'); }
+$('goRegister').onclick = e => { e.preventDefault(); toggleAuth('register'); };
+$('goLogin').onclick = e => { e.preventDefault(); toggleAuth('login'); };
+document.querySelectorAll('[data-pw]').forEach(b => b.onclick = () => {
+  const i = $(b.dataset.pw), show = i.type === 'password'; i.type = show ? 'text' : 'password';
+  b.innerHTML = `<i class="fa-regular fa-eye${show ? '-slash' : ''}"></i>`;
+});
+document.querySelectorAll('.logout-btn').forEach(b => b.onclick = () => { sessionStorage.removeItem(SESSION_KEY); location.reload(); });
 
-        function calculateWorkLife(startDateStr) {
-            if(!startDateStr) return { ageText: "ไม่ระบุวันที่บรรจุ", alertMsg: "กรุณาระบุวันที่บรรจุเพื่อเปิดใช้งานระบบคำนวณวันทำงานและวิทยฐานะ" };
-            let start = new Date(startDateStr);
-            let now = new Date();
-            let years = now.getFullYear() - start.getFullYear();
-            let months = now.getMonth() - start.getMonth();
-            let days = now.getDate() - start.getDate();
-            if (days < 0) { months--; days += new Date(now.getFullYear(), now.getMonth(), 0).getDate(); }
-            if (months < 0) { years--; months += 12; }
-            
-            let ageText = `${years} ปี ${months} เดือน ${days} วัน`;
-            let alertMsg = `อายุราชการปัจจุบัน ${years} ปี ${months} เดือน — วางแผนพัฒนาตนเองและเตรียมความพร้อมสำหรับการประเมินผลงานตามเกณฑ์ ก.ค.ศ. อย่างต่อเนื่อง`;
-            return { ageText, alertMsg };
-        }
+/* ---------- tabs ---------- */
+function switchTab(tabId){
+  document.querySelectorAll('.u-tab').forEach(el => el.classList.add('d-none'));
+  document.querySelectorAll('#userTabs .nav-link').forEach(el => el.classList.toggle('active', el.dataset.tab === tabId));
+  $(tabId).classList.remove('d-none');
+  if(tabId === 'u_editTab') fillEditForm();
+  if(tabId === 'u_trainTab' && !trainingLoaded) loadTraining();
+}
+document.querySelectorAll('#userTabs .nav-link').forEach(el => {
+  el.onclick = () => switchTab(el.dataset.tab);
+  el.onkeydown = e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); switchTab(el.dataset.tab); } };
+});
+$('toggleTrainFormBtn').onclick = () => $('addTrainBox').classList.toggle('d-none');
 
-        // Login
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const payload = { action: 'login', data: { email: document.getElementById('loginEmail').value, password: document.getElementById('loginPassword').value }};
-            callAPI(payload, 'loginBtn', 'กำลังตรวจสอบ...', function(res) {
-                if(res.status === 'success') {
-                    document.getElementById('authSection').classList.add('d-none');
-                    if(res.role === 'admin') {
-                        document.getElementById('adminSection').classList.remove('d-none');
-                        loadAdminData();
-                    } else {
-                        userData = res.data;
-                        document.getElementById('userSection').classList.remove('d-none');
-                        setupUserProfile(); 
-                        loadTraining();
-                    }
-                } else alert(res.message);
-            });
-        });
+/* ---------- work-life ---------- */
+function calculateWorkLife(startStr){
+  const start = parseDate(startStr);
+  if(!start) return { ageText:'ไม่ระบุ', alertMsg:'กรุณาระบุวันที่บรรจุ (เมนู "แก้ไขข้อมูล") เพื่อเปิดใช้งานการคำนวณอายุราชการ' };
+  const now = new Date();
+  let y = now.getFullYear() - start.getFullYear(), m = now.getMonth() - start.getMonth(), d = now.getDate() - start.getDate();
+  if(d < 0){ m--; d += new Date(now.getFullYear(), now.getMonth(), 0).getDate(); }
+  if(m < 0){ y--; m += 12; }
+  if(y < 0) return { ageText:'วันที่บรรจุไม่ถูกต้อง', alertMsg:'วันที่บรรจุอยู่ในอนาคต กรุณาตรวจสอบข้อมูล' };
+  const t = `${y} ปี ${m} เดือน ${d} วัน`;
+  return { ageText:t, short:`${y} ปี ${m} เดือน`, alertMsg:`อายุราชการปัจจุบัน ${t} — วางแผนพัฒนาตนเองและเตรียมความพร้อมสำหรับการประเมินตามเกณฑ์ ก.ค.ศ. อย่างต่อเนื่อง` };
+}
 
-        // Register
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const payload = { action: 'register', data: { email: document.getElementById('regEmail').value, password: document.getElementById('regPassword').value, full_name: document.getElementById('regName').value, position: document.getElementById('regPos').value }};
-            callAPI(payload, 'regBtn', 'กำลังบันทึก...', function(res) {
-                alert(res.message);
-                if(res.status === 'success') { document.getElementById('registerForm').reset(); toggleAuth('login'); }
-            });
-        });
+/* ---------- login / register ---------- */
+function enterApp(role, data){
+  $('authSection').classList.add('d-none');
+  if(role === 'admin'){ $('adminSection').classList.remove('d-none'); loadAdminData(); }
+  else { userData = data || {}; $('userSection').classList.remove('d-none'); setupUserProfile(); loadTraining(); }
+}
+$('loginForm').addEventListener('submit', e => {
+  e.preventDefault();
+  callAPI({ action:'login', data:{ email:$('loginEmail').value.trim(), password:$('loginPassword').value } }, 'loginBtn', 'กำลังตรวจสอบ...', res => {
+    if(res.status === 'success'){
+      const data = res.data ? Object.assign({}, res.data) : null; if(data) delete data.password;
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify({ role:res.role, data }));
+      enterApp(res.role, data);
+    } else toast(res.message || 'เข้าสู่ระบบไม่สำเร็จ', 'err');
+  });
+});
+$('registerForm').addEventListener('submit', e => {
+  e.preventDefault();
+  callAPI({ action:'register', data:{ email:$('regEmail').value.trim(), password:$('regPassword').value, full_name:$('regName').value.trim(), position:$('regPos').value.trim() } }, 'regBtn', 'กำลังบันทึก...', res => {
+    toast(res.message || '', res.status === 'success' ? 'ok' : 'err');
+    if(res.status === 'success'){ $('registerForm').reset(); toggleAuth('login'); }
+  });
+});
 
-        function setupUserProfile() {
-            document.getElementById('u_name').innerText = userData.full_name || '-';
-            document.getElementById('u_pos').innerText = userData.position || '-';
-            document.getElementById('u_acad').innerText = userData.academic_standing || 'ข้าราชการครู';
-            document.getElementById('d_email').innerText = userData.email || '-';
-            document.getElementById('d_phone').innerText = userData.phone || '-';
-            document.getElementById('d_lic').innerText = userData.teacher_license || '-';
-            document.getElementById('d_start').innerText = userData.start_date || '-';
-            document.getElementById('d_addr').innerText = userData.current_address || '-';
-            document.getElementById('d_teach').innerText = userData.teaching_load || '-';
-            
-            if(userData.profile_img) {
-                document.getElementById('u_img').src = userData.profile_img;
-            }
+/* ---------- profile ---------- */
+function setupUserProfile(){
+  const u = userData, set = (id, v) => $(id).textContent = v || '-';
+  set('u_name', u.full_name); set('u_pos', u.position); set('u_acad', u.academic_standing || 'ข้าราชการครู');
+  set('d_email', u.email); set('d_phone', u.phone); set('d_lic', u.teacher_license);
+  set('d_start', u.start_date ? fmtDate(u.start_date) : '-'); set('d_addr', u.current_address); set('d_teach', u.teaching_load);
+  const img = $('u_img'); img.onerror = () => { img.onerror = null; img.src = DEFAULT_AVATAR; }; img.src = imgUrl(u.profile_img);
+  const calc = calculateWorkLife(u.start_date);
+  set('d_workage', calc.ageText); set('s_age', calc.short || calc.ageText);
+  set('d_tenure', (u.academic_standing || 'ครูผู้ช่วย/ครู') + ' (ปฏิบัติราชการต่อเนื่อง)');
+  $('alertText').textContent = calc.alertMsg;
+}
+function fillEditForm(){
+  const u = userData;
+  $('e_name').value = u.full_name || ''; $('e_phone').value = u.phone || ''; $('e_acad').value = u.academic_standing || '';
+  $('e_lic').value = u.teacher_license || ''; $('e_start').value = toInputDate(u.start_date); $('e_addr').value = u.current_address || '';
+}
+$('editForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  let img = null;
+  try { img = await fileToBase64('e_img_file', { compress:true }); } catch(err){ toast(err.message, 'err'); return; }
+  const payload = { action:'update_profile', data:{
+    email:userData.email, full_name:$('e_name').value.trim(), phone:$('e_phone').value.trim(),
+    academic_standing:$('e_acad').value.trim(), teacher_license:$('e_lic').value.trim(),
+    start_date:$('e_start').value, current_address:$('e_addr').value.trim(),
+    profile_img: img || userData.profile_img || ''
+  }};
+  callAPI(payload, 'editBtn', 'กำลังอัปเดต...', res => {
+    toast(res.message || '', res.status === 'success' ? 'ok' : 'err');
+    if(res.status === 'success'){
+      if(res.profile_img) payload.data.profile_img = res.profile_img;
+      Object.assign(userData, payload.data); setupUserProfile(); $('e_img_file').value = '';
+      const s = JSON.parse(sessionStorage.getItem(SESSION_KEY) || '{}');
+      // ไม่เก็บรูป base64 ขนาดใหญ่ใน session
+      s.data = Object.assign({}, userData, { profile_img: (userData.profile_img || '').startsWith('data:') ? '' : userData.profile_img });
+      try { sessionStorage.setItem(SESSION_KEY, JSON.stringify(s)); } catch(_) {}
+    }
+  });
+});
 
-            let calc = calculateWorkLife(userData.start_date);
-            document.getElementById('d_workage').innerText = calc.ageText;
-            document.getElementById('d_tenure').innerText = (userData.academic_standing || 'ครูผู้ช่วย/ครู') + " (ปฏิบัติราชการต่อเนื่อง)";
-            document.getElementById('alertText').innerText = calc.alertMsg;
-        }
+/* ---------- training ---------- */
+function loadTraining(){
+  const tbody = $('trainTbody');
+  tbody.innerHTML = '<tr><td colspan="5" class="empty">กำลังโหลดข้อมูล...</td></tr>';
+  callAPI({ action:'get_training', data:{ email:userData.email } }, null, '', res => {
+    trainingLoaded = true;
+    const rows = (res && res.data) || [];
+    if(!rows.length){ tbody.innerHTML = '<tr><td colspan="5"><div class="empty"><i class="fa-regular fa-folder-open"></i>ยังไม่มีประวัติการอบรม<br>กด "เพิ่มการอบรม" เพื่อเริ่มบันทึก</div></td></tr>'; $('s_hours').textContent = '0 ชม.'; return; }
+    let total = 0;
+    tbody.innerHTML = rows.map(tr => {
+      total += Number(tr.hours) || 0;
+      const link = safeLink(tr.cert_file);
+      const cert = link ? `<a href="${esc(link)}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary py-0"><i class="fa-solid fa-file-pdf me-1"></i>ดูไฟล์</a>` : '<span class="text-muted small">ไม่มีไฟล์</span>';
+      return `<tr><td class="text-nowrap">${esc(fmtDate(tr.training_date))}</td><td>${esc(tr.course_name)}</td><td class="text-center">${esc(tr.academic_year)}</td><td class="text-center fw-bold text-brand">${esc(tr.hours)}</td><td class="text-center">${cert}</td></tr>`;
+    }).join('');
+    $('s_hours').textContent = total + ' ชม.';
+  });
+}
+function defaultYear(){ return String(new Date().getFullYear() + 543); }
+$('t_year').value = defaultYear();
+$('trainForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  let cert = null;
+  try { cert = await fileToBase64('t_file', { compress:true }); } catch(err){ toast(err.message, 'err'); return; }
+  const payload = { action:'add_training', data:{
+    email:userData.email, academic_year:$('t_year').value.trim(), training_date:$('t_date').value,
+    course_name:$('t_name').value.trim(), hours:$('t_hours').value, cert_file:cert
+  }};
+  callAPI(payload, 'trainBtn', 'กำลังบันทึก...', res => {
+    toast(res.message || '', res.status === 'success' ? 'ok' : 'err');
+    if(res.status === 'success'){ $('trainForm').reset(); $('t_year').value = defaultYear(); $('addTrainBox').classList.add('d-none'); loadTraining(); }
+  });
+});
 
-        function fillEditForm() {
-            document.getElementById('e_name').value = userData.full_name || '';
-            document.getElementById('e_phone').value = userData.phone || '';
-            document.getElementById('e_acad').value = userData.academic_standing || '';
-            document.getElementById('e_lic').value = userData.teacher_license || '';
-            document.getElementById('e_start').value = userData.start_date || '';
-            document.getElementById('e_addr').value = userData.current_address || '';
-        }
+/* ---------- admin ---------- */
+function renderAdminUsers(list){
+  $('admUserTbody').innerHTML = list.length ? list.map(u =>
+    `<tr><td class="fw-semibold text-brand">${esc(u.full_name || '-')}</td><td>${esc(u.position || '-')}</td><td>${esc(u.email || '-')}</td><td>${esc(u.phone || '-')}</td><td class="text-nowrap">${esc(u.start_date ? fmtDate(u.start_date) : '-')}</td></tr>`
+  ).join('') : '<tr><td colspan="5"><div class="empty"><i class="fa-solid fa-magnifying-glass"></i>ไม่พบรายชื่อที่ตรงกับคำค้นหา</div></td></tr>';
+}
+function loadAdminData(){
+  callAPI({ action:'get_admin_data', data:{} }, null, '', res => {
+    if(res.status !== 'success'){ toast(res.message || 'โหลดข้อมูลไม่สำเร็จ', 'err'); return; }
+    adminUsers = res.users || [];
+    $('adm_user_count').textContent = adminUsers.length + ' คน';
+    $('adm_train_count').textContent = (res.total_training || 0) + ' รายการ';
+    renderAdminUsers(adminUsers);
+  });
+}
+$('admSearch').addEventListener('input', e => {
+  const q = e.target.value.trim().toLowerCase();
+  renderAdminUsers(adminUsers.filter(u => [u.full_name, u.position, u.email, u.phone].join(' ').toLowerCase().includes(q)));
+});
 
-        document.getElementById('editForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            let base64Img = await fileToBase64('e_img_file');
-            const payload = { 
-                action: 'update_profile', 
-                data: { 
-                    email: userData.email, 
-                    full_name: document.getElementById('e_name').value, 
-                    phone: document.getElementById('e_phone').value, 
-                    academic_standing: document.getElementById('e_acad').value, 
-                    teacher_license: document.getElementById('e_lic').value, 
-                    start_date: document.getElementById('e_start').value,
-                    current_address: document.getElementById('e_addr').value,
-                    profile_img: base64Img || userData.profile_img
-                }
-            };
-            callAPI(payload, 'editBtn', 'กำลังอัปเดต...', function(res) {
-                alert(res.message);
-                if(res.status === 'success') { 
-                    if(res.profile_img) payload.data.profile_img = res.profile_img;
-                    Object.assign(userData, payload.data); 
-                    setupUserProfile(); 
-                }
-            });
-        });
-
-        // Load Training History
-        function loadTraining() {
-            callAPI({ action: 'get_training', data: { email: userData.email } }, null, '', function(res) {
-                const tbody = document.getElementById('trainTbody'); 
-                if(!tbody) return;
-                tbody.innerHTML = '';
-                if(res.data && res.data.length > 0) {
-                    res.data.forEach(tr => {
-                        let certLink = tr.cert_file ? `<a href="${tr.cert_file}" target="_blank" class="btn btn-sm btn-outline-primary py-0"><i class="fa-solid fa-file-pdf"></i> ดูไฟล์</a>` : '<span class="text-muted small">ไม่มีไฟล์</span>';
-                        tbody.innerHTML += `<tr><td>${tr.training_date}</td><td class="text-start">${tr.course_name}</td><td>${tr.academic_year}</td><td class="text-primary fw-bold">${tr.hours}</td><td>${certLink}</td></tr>`;
-                    });
-                } else {
-                    tbody.innerHTML = '<tr><td colspan="5" class="text-muted">ยังไม่มีประวัติการอบรม</td></tr>';
-                }
-            });
-        }
-
-        // Submit Training
-        document.getElementById('trainForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            let certBase64 = await fileToBase64('t_file');
-            const payload = { 
-                action: 'add_training', 
-                data: { 
-                    email: userData.email, 
-                    academic_year: document.getElementById('t_year').value, 
-                    training_date: document.getElementById('t_date').value, 
-                    course_name: document.getElementById('t_name').value, 
-                    hours: document.getElementById('t_hours').value,
-                    cert_file: certBase64
-                }
-            };
-            callAPI(payload, 'trainBtn', 'กำลังบันทึก...', function(res) {
-                alert(res.message);
-                if(res.status === 'success') { 
-                    document.getElementById('trainForm').reset(); 
-                    document.getElementById('t_year').value = "2567"; 
-                    document.getElementById('addTrainBox').classList.add('d-none');
-                    loadTraining(); 
-                }
-            });
-        });
-
-        function loadAdminData() {
-            callAPI({ action: 'get_admin_data', data: {} }, null, '', function(res) {
-                if(res.status === 'success') {
-                    document.getElementById('adm_user_count').innerText = res.users.length + " คน";
-                    document.getElementById('adm_train_count').innerText = res.total_training + " รายการ";
-                    const tbody = document.getElementById('admUserTbody'); tbody.innerHTML = '';
-                    res.users.forEach(u => { tbody.innerHTML += `<tr><td><div class="fw-bold text-primary">${u.full_name||'-'}</div></td><td>${u.position||'-'}</td><td>${u.email||'-'}</td><td>${u.phone||'-'}</td><td>${u.start_date||'-'}</td></tr>`; });
-                }
-            });
-        }
-    </script>
+/* ---------- restore session on refresh ---------- */
+(function(){
+  try {
+    const s = JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null');
+    if(s && (s.role === 'admin' || (s.data && s.data.email))) enterApp(s.role, s.data);
+  } catch(_) { sessionStorage.removeItem(SESSION_KEY); }
+})();
+</script>
 </body>
 </html>
