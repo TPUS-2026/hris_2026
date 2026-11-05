@@ -281,11 +281,15 @@ function callAPI(payload, btnId, loadingText, callback){
   const btn = btnId ? $(btnId) : null, orig = btn ? btn.innerHTML : '';
   if(btn){ btn.innerHTML = loadingText; btn.disabled = true; }
   const done = () => { if(btn){ btn.innerHTML = orig; btn.disabled = false; } };
-  fetch(API_URL, { method:'POST', body: JSON.stringify(payload), headers:{'Content-Type':'text/plain;charset=utf-8'}, redirect:'follow' })
+  let token = '';
+  try { token = (JSON.parse(sessionStorage.getItem(SESSION_KEY) || '{}')).token || ''; } catch(_) {}
+  fetch(API_URL, { method:'POST', body: JSON.stringify(Object.assign({ token }, payload)), headers:{'Content-Type':'text/plain;charset=utf-8'}, redirect:'follow' })
     .then(res => res.text())
     .then(txt => {
       let result; try { result = JSON.parse(txt); } catch(e) { throw new Error('เซิร์ฟเวอร์ตอบกลับไม่ถูกต้อง (ตรวจสอบว่า Deploy เป็น "Anyone" และใช้ URL /exec ล่าสุด)'); }
-      done(); callback(result);
+      done();
+      if(result.status === 'unauthorized'){ sessionStorage.removeItem(SESSION_KEY); toast(result.message, 'err'); setTimeout(() => location.reload(), 1200); return; }
+      callback(result);
     })
     .catch(err => { done(); toast(err.message || 'เชื่อมต่อเซิร์ฟเวอร์ไม่สำเร็จ', 'err'); });
 }
@@ -338,7 +342,7 @@ $('loginForm').addEventListener('submit', e => {
   callAPI({ action:'login', data:{ email:$('loginEmail').value.trim(), password:$('loginPassword').value } }, 'loginBtn', 'กำลังตรวจสอบ...', res => {
     if(res.status === 'success'){
       const data = res.data ? Object.assign({}, res.data) : null; if(data) delete data.password;
-      sessionStorage.setItem(SESSION_KEY, JSON.stringify({ role:res.role, data }));
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify({ role:res.role, data, token:res.token }));
       enterApp(res.role, data);
     } else toast(res.message || 'เข้าสู่ระบบไม่สำเร็จ', 'err');
   });
